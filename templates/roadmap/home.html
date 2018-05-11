@@ -1,0 +1,26 @@
+{% extends 'roadmap/base.html' %}
+
+{% block content %}
+
+<div class="container w_bg p-2 mt-2 mb-2 text-center">
+    <h4>Roadmaps</h4>
+    <a href="/">Retour au site de l'ogre</a>
+</div>
+<div class="container w_bg">
+    {% for theme in themes %}
+    <hr>
+    <a href="view/{{theme.uid}}">
+        <div class="row mb-3">
+            <div class="col-7 h3">{{theme.name}}</div>
+            <div class="col-2">{{theme.author}}</div>
+            <div class="col-1">{{theme.ItemCount}}</div>
+            <div class="col-2">{{theme.timestamp |date:'Y-m-d H:i'}}</div>
+        </div>
+        <div>
+            Utilisateurs autorisés : {% for user in theme.authorized_user.all %}<button class="btn btn-sm btn-secondary">{{user.username}}</button> {% endfor %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

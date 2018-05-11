@@ -1,0 +1,304 @@
+@font-face {
+    font-family: 'acre-medium';
+    src: url('/static/cosmic/fonts/acre_medium_macroman/acre-medium-webfont.woff2') format('woff2'),
+         url('/static/cosmic/fonts/acre_medium_macroman/acre-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'bellfortroughdemo';
+    src: url('/static/cosmic/fonts/bellfortroughdemo_regular_macroman/bellfortroughdemo-webfont.woff2') format('woff2'),
+         url('/static/cosmic/fonts/bellfortroughdemo_regular_macroman/bellfortroughdemo-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+*{
+  font-family: 'acre-medium', sans-serif;
+  font-size: 1.05rem;
+  color: #292929;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'bellfortroughdemo', sans-serif;
+  text-align: center;
+}
+
+h1, h2{
+  color: white;
+}
+
+.btn{
+  white-space: normal;
+  }
+
+
+#banner_logo{
+  width: 50px;
+  height: auto;
+  text-shadow: 1px 1px 2px #000;
+  margin: 0;
+}
+
+.underlined_link, p>a{
+  color: #1c3c4f;
+  text-decoration: underline;
+}
+
+.btn-primary{
+  background-color: #1c3c4f;
+  border-color: #1c3c4f;
+}
+
+.btn-outline-primary{
+  color: #1c3c4f;
+  border-color: #1c3c4f;
+}
+
+.btn-outline-primary:hover{
+  background-color: #1c3c4f;
+  color: white;
+  border-color: #1c3c4f;
+}
+
+.dropdown-toggle::after{
+  content: unset;
+}
+
+.white{
+  color: white;
+  fill: white;
+}
+
+.green{
+  color: green;
+}
+
+.grey{
+  color: grey;
+}
+
+.navbar{
+  padding: 0rem 1rem;
+}
+
+.navbar-nav{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+img{
+  max-width: 100%;
+  height: auto;
+  vertical-align: unset;
+}
+
+a{
+  color: unset;
+}
+
+p{
+  text-align: justify;
+}
+
+table{
+  margin-bottom: 2rem;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td{
+  padding: 1rem;
+  text-align: center;
+}
+
+th{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.admin_option{
+  font-size: 80%;
+  background-color: black;
+  color: orange;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-right: 4px;
+  border-radius: 2px;
+}
+
+.w_bg{
+  background-image: url('/static/ogresite/seamless.png');
+  border-radius: 4px;
+  border: solid 1px #ccc;
+  padding: 2rem;
+}
+
+blockquote{
+  border-left: 2px solid grey;
+  padding-left: 1rem;
+
+}
+
+.dropdown-menu {
+  margin: 0.5rem 0 0;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: solid 1px #ccc;
+  box-shadow: 0px 10px 10px #2b2b2b;
+  border-top: unset;
+  background-image: url('/static/ogresite/seamless.png');
+}
+
+/* forms -------------------------------------------------------------------- */
+
+form{
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+select{
+  color: black;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input{
+  color: black;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  
+}
+
+textarea{
+  color: black;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 20rem;
+}
+
+label{
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.nav-item>a{
+  font-family: 'bellfortroughdemo', sans-serif;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.container>img, .container-fluid>img, .centered_img{
+  display: block;
+  margin: auto;
+}
+
+.small_img{
+  height: 100px;
+  width: auto;
+}
+
+.bordered{
+  background-color: #9a9da0;
+  border-radius: 0.5rem;
+  border: solid 1px black;
+}
+
+
+/*// Extra small devices (portrait phones, less than 576px)*/
+/*// No media query since this is the default in Bootstrap*/
+
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+
+}
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+  body { 
+    background: url('/static/ogresite/bg71.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: #343a40;
+    overflow-y: scroll; 
+  }
+
+  .blog_img_thumbnail, .forum_post img{
+    height: 300px;
+    max-width: 25%;
+    object-fit: cover;
+    background-color: #9a9da0;
+    border-radius: 0.5rem;
+    border: solid 1px black;
+    margin: 1rem;
+  }
+}
+
+/*// Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}
+
+
+
+/*// Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575px) {
+
+}
+
+/*// Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767px) {
+
+}
+
+/*// Medium devices (tablets, less than 992px)*/
+@media (max-width: 991px) {
+  body{
+    background-image: url('/static/ogresite/mobile_bg.png');
+  }
+
+  .blog_img_thumbnail{
+    height: 150px;
+    max-width: 150px;
+    object-fit: cover;
+    background-color: #9a9da0;
+    border-radius: 0.5rem;
+    border: solid 1px black;
+    margin: 1rem;
+  }
+}
+
+/*// Large devices (desktops, less than 1200px)*/
+@media (max-width: 1199px) {
+
+}

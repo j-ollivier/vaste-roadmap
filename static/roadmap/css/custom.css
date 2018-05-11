@@ -1,0 +1,200 @@
+@font-face {
+    font-family: 'acre-medium';
+    src: url('/static/cosmic/fonts/acre_medium_macroman/acre-medium-webfont.woff2') format('woff2'),
+         url('/static/cosmic/fonts/acre_medium_macroman/acre-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  body{
+    /* background-image: url('/static/ogresite/mobile_bg.png'); */
+    background-color: grey;
+    overflow-y:scroll;
+  }
+
+.bordered-right{
+  border-right: solid 1px grey;
+}
+
+.small-text{
+  font-size: 0.9rem;
+}
+
+code{
+  display: block;
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+*{
+  font-family: 'acre-medium', sans-serif;
+}
+
+img{
+  max-width: 100%;
+  height: auto;
+  vertical-align: unset;
+}
+
+a{
+  color: unset;
+}
+
+.item-content>a{
+  text-decoration: underline;
+}
+
+p{
+  text-align: justify;
+}
+
+table{
+  margin-bottom: 2rem;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td{
+  padding: 1rem;
+  text-align: center;
+}
+
+th{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.w_bg{
+  background-image: url('/static/ogresite/seamless.png');
+  border-radius: 4px;
+  border: solid 1px #ccc;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+/* forms -------------------------------------------------------------------- */
+
+form{
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+select{
+  color: black;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input{
+  color: black;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  
+}
+
+textarea{
+  color: black;
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 20rem;
+}
+
+label{
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.nav-item>a{
+  font-family: 'bellfortroughdemo', sans-serif;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.container>img, .container-fluid>img, .centered_img{
+  display: block;
+  margin: auto;
+}
+
+.small_img{
+  height: 100px;
+  width: auto;
+}
+
+.bordered{
+  background-color: #9a9da0;
+  border-radius: 0.5rem;
+  border: solid 1px black;
+}
+
+
+/*// Extra small devices (portrait phones, less than 576px)*/
+/*// No media query since this is the default in Bootstrap*/
+
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+
+}
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+}
+
+/*// Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}
+
+
+
+/*// Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575px) {
+
+}
+
+/*// Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767px) {
+
+}
+
+/*// Medium devices (tablets, less than 992px)*/
+@media (max-width: 991px) {
+  body{
+    background-image: url('/static/ogresite/mobile_bg.png');
+  }
+
+  .blog_img_thumbnail{
+    height: 150px;
+    max-width: 150px;
+    object-fit: cover;
+    background-color: #9a9da0;
+    border-radius: 0.5rem;
+    border: solid 1px black;
+    margin: 1rem;
+  }
+}
+
+/*// Large devices (desktops, less than 1200px)*/
+@media (max-width: 1199px) {
+
+}

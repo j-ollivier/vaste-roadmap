@@ -1,0 +1,79 @@
+
+
+{% extends 'roadmap/base.html' %}
+
+{% block content %}
+
+<div class="container w_bg p-2 mt-2 mb-2 text-center">
+    <h4>{{theme.name}}</h4>
+    <a href="/roadmap">Retour</a>
+</div>
+<div class="container w_bg">
+
+    {% for subtheme in subthemes %}
+    <div class="row mt-5">
+        <div class="col-8">
+            <h3 class="m-0">{{subtheme.name}}</h3>
+            <span class="small">Créé par {{subtheme.author}} le {{subtheme.timestamp | date:'d M Y H:i'}}. {{subtheme.ItemCountActive}}/{{subtheme.ItemCount}} items actifs.</span>
+        </div>
+        <div class="col-4">
+            <a class="btn btn-outline-success btn-sm mr-2" href="/roadmap/additem/{{subtheme.uid}}">Nouvel item</a>
+        </div>
+    </div>
+    <hr>
+    {% for item in subtheme.item_subtheme.all %}
+    {% if item.is_active %}
+    <div class="row mb-4">
+        <div class="col-2 bordered-right">
+            <a href="/roadmap/itemstatusswitch/{{item.uid}}/active_switch"><span data-feather="square"></span></a> 
+            {% if item.is_important %}
+            <a style="color: red;" href="/roadmap/itemstatusswitch/{{item.uid}}/importance_switch"><span data-feather="star"></span></a>
+            {% else %}
+            <a href="/roadmap/itemstatusswitch/{{item.uid}}/importance_switch"><span data-feather="star"></span></a>
+            {% endif %}
+            <a target="_blank" href="/admin/roadmap/item/{{item.uid}}/change/"><span data-feather="edit"></span></a>
+            <a href="/roadmap/additemcomment/{{item.uid}}"><span data-feather="message-square"></span></a>
+        </div>
+        <div class="col-7 item-content">
+            <div>
+                {{item.name.rendered}}
+            </div>
+            {% if item.item_comment_item.all %}
+            <hr>
+            <div>
+                {% for comment in item.item_comment_item.all %}
+                <div class="small p-1 mt-1">
+                    <span class="small" data-feather="message-square"></span>
+                    <span title="{{comment.timestamp | date:'d M Y H:i'}}">{{comment.author}}: {{comment.name}}</span>
+                    {% if request.user.is_staff %}
+                    <a target="_blank" href="/admin/roadmap/itemcomment/{{comment.uid}}/change/">(éditer)</a>
+                    {% endif %} 
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-3">{{item.created_date | date:'d M Y H:i'}}</div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-2 text-muted"><a href="/roadmap/itemstatusswitch/{{item.uid}}/active_switch"><span data-feather="check-square"></span></a></div>
+        <div class="col-7 text-muted">{{item.name}}<br><span class="small">Complété le : {{item.completed_date | date:'d M Y H:i'}}</span></div>
+        <div class="col-3 text-muted">{{item.created_date | date:'d M Y H:i'}}</div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+    <hr>    
+    <div class="mt-5">
+        <h3>Nouveau sous-thème</h3>
+        <form class="mt-5" id="new_sub_theme_form" action="/roadmap/addsubtheme/{{theme.uid}}" method="post">
+            {% csrf_token %}
+            {{ new_sub_theme_form.as_p }}
+            <input id= "new_sub_theme_form_input" type="submit" value="Créer" />
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

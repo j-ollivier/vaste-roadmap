@@ -1,0 +1,32 @@
+{% extends 'roadmap/base.html' %}
+
+{% block content %}
+
+<div class="container w_bg p-2 mt-2 mb-2 text-center">
+    <h4>Ajouter un nouvel item</h4>
+    <a href="/roadmap">Retour</a>
+</div>
+<div class="container w_bg">
+    <div>
+        <button class="btn btn-outline-secondary" title="Texte en gras" onclick="document.forms['new_item_form']['id_name'].value += '[b][/b]'">b</button>
+        <button class="btn btn-outline-secondary" title="Texte en italique" onclick="document.forms['new_item_form']['id_name'].value += '[i][/i]'">i</button>
+        <button class="btn btn-outline-secondary" title="Texte souligné" onclick="document.forms['new_item_form']['id_name'].value += '[u][/u]'">u</button>
+        <button class="btn btn-outline-secondary" title="Texte barré" onclick="document.forms['new_item_form']['id_name'].value += '[s][/s]'">s</button>
+        <button class="btn btn-outline-secondary" title="Liste d'items" onclick="document.forms['new_item_form']['id_name'].value += '[list][/list]'">list</button>
+        <button class="btn btn-outline-secondary" title="Item d'une liste" onclick="document.forms['new_item_form']['id_name'].value += '[*]'">*</button>
+        <button class="btn btn-outline-secondary" title="Texte en code" onclick="document.forms['new_item_form']['id_name'].value += '[code][/code]'">code</button>
+        <button class="btn btn-outline-secondary" title="Citation" onclick="document.forms['new_item_form']['id_name'].value += '[quote][/quote]'">quote</button>
+        <button class="btn btn-outline-secondary" title="Centrer le texte" onclick="document.forms['new_item_form']['id_name'].value += '[center][/center]'">center</button>
+        <button class="btn btn-outline-secondary" title="Changer la couleur. Remplacer # par une valeur hexadécimale ou un nom en anglais (green, red)" onclick="document.forms['new_item_form']['id_name'].value += '[color=#][/color]'">color</button>
+        <button class="btn btn-outline-secondary" title="Insérer un hyperlien. Remplacer # par le lien (sans guillemets)" onclick="document.forms['new_item_form']['id_name'].value += '[url=#][/url]'">url</button>
+        <button class="btn btn-outline-secondary" title="Insérer une image. Remplacer le dièse par le lien (sans guillemets)" onclick="document.forms['new_item_form']['id_name'].value += '[img][/img]'">img</button>
+        <a class="btn btn-outline-secondary" title="Aide bbcode" href="https://django-precise-bbcode.readthedocs.io/en/stable/basic_reference/builtin_bbcodes.html">Aide bbcode</a>
+    </div>
+    <form class="mt-5" id="new_item_form" action="/roadmap/additem/{{subtheme.uid}}" method="post">
+        {% csrf_token %}
+        {{ new_item_form.as_p }}
+        <input id= "new_item_form" type="submit" value="Enregistrer" />
+    </form>
+</div>
+
+{% endblock %}
