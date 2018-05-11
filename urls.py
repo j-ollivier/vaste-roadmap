@@ -21,6 +21,7 @@ urlpatterns = [
     path('', Home, name= 'Home'), 
     path('view/<int:theme_uid>', ThemeView),
     path('itemstatusswitch/<int:item_uid>/<str:item_action>', ItemStatusSwitch),
+    path('subthemeorderchange/<int:subtheme_uid>/<str:subtheme_action>', SubThemeOrderChange),
     path('additem/<int:subtheme_uid>', AddItem),
     path('additemcomment/<int:item_uid>', AddItemComment),
     path('addsubtheme/<int:theme_uid>', AddSubTheme),

@@ -6,6 +6,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 @login_required
 #####################################################################
@@ -36,7 +37,7 @@ def ThemeView(request, theme_uid):
             'theme': theme,
             'new_sub_theme_form' : NewSubThemeForm(),
             'subthemes': SubTheme.objects.filter(
-                theme = theme).order_by('timestamp').select_related(),
+                theme = theme).order_by('order').select_related(),
         }
         template = loader.get_template('roadmap/theme_view.html')
         return HttpResponse(template.render(context, request))
@@ -80,7 +81,8 @@ def AddItemComment(request, item_uid):
         Display the content of the folder linked to the Galery object
     '''
     item = Item.objects.get(pk = item_uid)
-    if request.method == "POST" and request.user in [subtheme.Theme.authorized_user]:
+    subtheme = item.subtheme
+    if request.method == "POST" and request.user in subtheme.theme.authorized_user.all():
         form = NewItemCommentForm(request.POST)
         if form.is_valid():
             new_item = ItemComment()
@@ -99,7 +101,7 @@ def AddItemComment(request, item_uid):
             'item': item,
             'new_item_comment_form' : NewItemCommentForm(),
         }
-        template = loader.get_template('roadmap/add_subtheme.html')
+        template = loader.get_template('roadmap/add_item_comment.html')
         return HttpResponse(template.render(context, request))
 
 @login_required
@@ -157,3 +159,43 @@ def ItemStatusSwitch(request, item_uid, item_action):
             '/nope')
 
     return HttpResponseRedirect('/roadmap/view/{}'.format(theme.uid))
+
+@login_required
+#####################################################################
+def SubThemeOrderChange(request, subtheme_uid, subtheme_action):
+    '''
+        Users are allowed to change the order of subthemes.
+        This view handles the ordrer change and the order change 
+        of the other subthemes to adapt to the new order value of 
+        the changed subtheme.
+    '''
+    subtheme = SubTheme.objects.get(pk = subtheme_uid)
+    if subtheme_action == 'to_up':
+        order_modificator = -1
+    elif subtheme_action == 'to_down':
+        order_modificator = 1
+    else:
+        return HttpResponseRedirect('/nope')
+    if request.user in subtheme.theme.authorized_user.all():
+        # check if order is already at minimum value
+        if subtheme.order <= 1:
+            return HttpResponseRedirect(
+                '/roadmap/view/{}'.format(subtheme.theme.uid))
+        else:
+            pass
+        # Do the modification
+        try:
+            subtheme.order += order_modificator
+            subtheme_to_swap = SubTheme.objects.get(
+                theme = subtheme.theme, order = subtheme.order)
+            subtheme.save()
+        except ObjectDoesNotExist:
+            return HttpResponseRedirect(
+                '/roadmap/view/{}'.format(subtheme.theme.uid))    
+        # rearrange the item 
+        subtheme_to_swap.order += -order_modificator
+        subtheme_to_swap.save()
+        return HttpResponseRedirect(
+                '/roadmap/view/{}'.format(subtheme.theme.uid))
+    else:
+        return HttpResponseRedirect('/nope')

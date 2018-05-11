@@ -13,8 +13,16 @@
     {% for subtheme in subthemes %}
     <div class="row mt-5">
         <div class="col-8">
-            <h3 class="m-0">{{subtheme.name}}</h3>
-            <span class="small">Créé par {{subtheme.author}} le {{subtheme.timestamp | date:'d M Y H:i'}}. {{subtheme.ItemCountActive}}/{{subtheme.ItemCount}} items actifs.</span>
+            <h3 class="m-0">#{{subtheme.order}} - {{subtheme.name}}</h3>
+            <span class="small">
+                {% if subtheme.order != 1 %}
+                <a href="/roadmap/subthemeorderchange/{{subtheme.uid}}/to_up"><span data-feather="arrow-up"></span></a>
+                <a href="/roadmap/subthemeorderchange/{{subtheme.uid}}/to_down"><span data-feather="arrow-down"></span></a>
+                {% endif %}
+                Créé par {{subtheme.author}} le {{subtheme.timestamp | date:'d M Y H:i'}}. 
+                {{subtheme.ItemCountActive}}/{{subtheme.ItemCount}} items actifs. 
+                {% if request.user.is_staff %}<a target="_blank" href="/admin/roadmap/subtheme/{{subtheme.uid}}/change/">(Editer)</a>{% endif %}
+            </span>
         </div>
         <div class="col-4">
             <a class="btn btn-outline-success btn-sm mr-2" href="/roadmap/additem/{{subtheme.uid}}">Nouvel item</a>

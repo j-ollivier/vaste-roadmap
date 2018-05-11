@@ -9,8 +9,8 @@ admin.site.register(Theme, AdminTheme)
 
 #####################################################################
 class AdminSubTheme(admin.ModelAdmin):
-    list_display= ['uid', 'name', 'author', 'timestamp']
-    ordering= ['timestamp']
+    list_display= ['uid', 'name', 'theme', 'order', 'author', 'timestamp']
+    ordering= ['theme', 'timestamp']
 admin.site.register(SubTheme, AdminSubTheme)
 
 #####################################################################
