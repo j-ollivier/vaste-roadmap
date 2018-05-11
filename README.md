@@ -11,7 +11,11 @@ The app is viable but I am still working on it, I will add new functionalities A
 ## Installation
 DL this repo in your django project
 Add 'roadmap' to your INSTALLED_APPS variable in /<project-name>/settings.py
-'''bash
+
 python3 manage.py makemigrations
+
 python3 manage.py migrate
-'''
+
+If you're working on production already (which you shouldn't mind you) you have to add this step :
+
+python3 manage.py collecstatic
