@@ -120,3 +120,30 @@ class ItemComment(models.Model):
     # Methods
     def __str__(self):
         return str(self.name)
+
+#####################################################################
+class EventLog(models.Model):
+    '''
+        To keep track of every event, a log entry is available each
+        time an event happens in
+    '''
+    # Attributes
+    uid = models.AutoField(
+        primary_key = True, db_index = True)
+    author = models.ForeignKey(
+        User, 
+        on_delete = models.CASCADE,
+        related_name = 'log_author')
+    entity_uid = models.PositiveIntegerField(
+        )
+    entity_type = models.CharField(
+        max_length = 100)
+    value = models.TextField(
+        null = True)
+    action = models.CharField(
+        max_length = 200)
+    timestamp =  models.DateTimeField(
+        default = timezone.now)
+    # Methods
+    def __str__(self):
+        return str(self.uid)

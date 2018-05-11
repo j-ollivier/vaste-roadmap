@@ -24,3 +24,9 @@ class AdminItemComment(admin.ModelAdmin):
     list_display= ['uid', 'name', 'item', 'author', 'timestamp']
     ordering= ['-timestamp']
 admin.site.register(ItemComment, AdminItemComment)
+
+#####################################################################
+class AdminEventLog(admin.ModelAdmin):
+    list_display= ['uid', 'action', 'entity_type', 'entity_uid', 'value', 'author', 'timestamp']
+    ordering= ['-timestamp']
+admin.site.register(EventLog, AdminEventLog)

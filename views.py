@@ -61,6 +61,14 @@ def AddItem(request, subtheme_uid):
             new_item.is_active = True
             new_item.created_date = timezone.now()
             new_item.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'item'
+            log.value = new_item.name
+            log.entity_uid = Item.objects.all().order_by('created_date').last().uid
+            log.action = 'Création'
+            log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(subtheme.theme.uid))
         else:
@@ -91,6 +99,14 @@ def AddItemComment(request, item_uid):
             new_item.author = User.objects.get(pk = request.user.id)
             new_item.timestamp = timezone.now()
             new_item.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'commentaire'
+            log.entity_uid = ItemComment.objects.all().order_by('timestamp').last().uid
+            log.value = new_item.name
+            log.action = 'Création'
+            log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(item.subtheme.theme.uid))
         else:
@@ -120,6 +136,14 @@ def AddSubTheme(request, theme_uid):
             new_subtheme.theme = theme
             new_subtheme.timestamp = timezone.now()
             new_subtheme.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'sous-thème'
+            log.entity_uid = SubTheme.objects.all().order_by('timestamp').last().uid
+            log.action = 'Création'
+            log.value = new_subtheme.name
+            log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(theme.uid))
         else:
@@ -143,17 +167,45 @@ def ItemStatusSwitch(request, item_uid, item_action):
             item.is_important = False
             item.completed_date = timezone.now()
             item.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'item'
+            log.entity_uid = Item.objects.all().order_by('created_date').last().uid
+            log.action = 'Complétion'
+            log.save()
         else:
             item.is_active = True
-            item.completed_date = timezone.now()
+            item.completed_date = None
             item.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'item'
+            log.entity_uid = Item.objects.all().order_by('created_date').last().uid
+            log.action = 'Réactivation'
+            log.save()
     elif item_action == 'importance_switch' and request.user in theme.authorized_user.all():
         if item.is_important == True:
             item.is_important = False
             item.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'item'
+            log.entity_uid = Item.objects.all().order_by('created_date').last().uid
+            log.action = 'Priorité abaissée'
+            log.save()
         else:
             item.is_important = True
             item.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'item'
+            log.entity_uid = Item.objects.all().order_by('created_date').last().uid
+            log.action = 'Priorité élevée'
+            log.save()
     else:
         return HttpResponseRedirect(
             '/nope')
@@ -189,6 +241,13 @@ def SubThemeOrderChange(request, subtheme_uid, subtheme_action):
             subtheme_to_swap = SubTheme.objects.get(
                 theme = subtheme.theme, order = subtheme.order)
             subtheme.save()
+            # log it
+            log = EventLog()
+            log.author = request.user
+            log.entity_type = 'sous-thème'
+            log.entity_uid = subtheme.uid
+            log.action = 'Changement d\'ordre'
+            log.save()
         except ObjectDoesNotExist:
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(subtheme.theme.uid))    
