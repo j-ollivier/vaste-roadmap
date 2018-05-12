@@ -3,23 +3,46 @@
 {% block content %}
 
 <div class="container w_bg p-2 mt-2 mb-2 text-center">
-    <h4>Roadmaps</h4>
-    <a href="/">Retour au site de l'ogre</a>
+    <h4>Feuilles de route de la communauté</h4>
+    <a href="/">Retour au site de l'ogre</a><br>
 </div>
 <div class="container w_bg">
+    <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#display_manual" aria-expanded="false" aria-controls="display_manual">
+        Afficher le manuel d'utilisateur
+    </button>
+    <div class="collapse" id="display_manual">
+        <p>Les membres de notre petite communauté (qui grandit chaque jour !) ont chacun des projets. Je mets cet espace à disposition pour que l'on puisse disposer de feuilles de routes, c'est à dire un mix sympa entre liste de courses et forum de discussion.</p>
+        <p>Si vous voulez tester les fonctionnalités d'une feuille de route test, vous pouvez faire une demande par formulaire : <a href="/ogrelog">cliquez ici</a></p>
+        <p><b>Principes des feuilles de route à la vaste.fr :</b></p>
+        <ul>
+            <li>On ne supprime rien sauf en cas de grosse bêtise</li>
+            <li>Chaque thème possède une liste blanche d'utilisateurs autorisés</li>
+            <li>Dans chaque thème, des sous-thèmes réarrangeables</li>
+            <li>Dans chaque sous-thèmes, des items -> des choses à faire</li>
+            <li>Chaque item possède des options : l'état d'avancement, l'importance, et la possibilité de commenter.</li>
+        </ul>
+    </div>
     {% for theme in themes %}
     <hr>
     <a href="view/{{theme.uid}}">
-        <div class="row mb-3">
+        <div class="row">
             <div class="col-7 h3">{{theme.name}}</div>
             <div class="col-2">{{theme.author}}</div>
             <div class="col-1">{{theme.ItemCount}}</div>
-            <div class="col-2">{{theme.timestamp |date:'Y-m-d H:i'}}</div>
-        </div>
-        <div>
-            Utilisateurs autorisés : {% for user in theme.authorized_user.all %}<button class="btn btn-sm btn-secondary">{{user.username}}</button> {% endfor %}
+            <div class="col-2">{{theme.created_date | date:'Y-m-d H:i'}}</div>
         </div>
     </a>
+        <div class="media">
+            <span class="ml-3" data-feather="user-check"></span>{% for user in theme.authorized_user.all %}<span class="ml-2 mr-2">{{user.username}}</span> {% endfor %}
+        </div>
+        <div class="media  mt-3">
+            <span class="ml-3 mr-2" data-feather="activity"></span> Activité récente :
+        </div>
+        {% for item in theme.log_theme.all|slice:":10" %}
+        <div class="small">
+            <div>{{item.created_date | date:'Y-m-d H:i'}} - {{item.action}} d'un {{item.entity_type}} par {{item.author}}</div>
+        </div>
+        {% endfor %}
     {% endfor %}
 </div>
 

@@ -13,13 +13,13 @@
     {% for subtheme in subthemes %}
     <div class="row mt-5">
         <div class="col-8">
-            <h3 class="m-0">#{{subtheme.order}} - {{subtheme.name}}</h3>
+            <h3 class="m-0" id="subtheme_{{subtheme.uid}}">{{subtheme.name}}</h3>
             <span class="small">
                 {% if subtheme.order != 1 %}
                 <a href="/roadmap/subthemeorderchange/{{subtheme.uid}}/to_up"><span data-feather="arrow-up"></span></a>
                 <a href="/roadmap/subthemeorderchange/{{subtheme.uid}}/to_down"><span data-feather="arrow-down"></span></a>
                 {% endif %}
-                Créé par {{subtheme.author}} le {{subtheme.timestamp | date:'d M Y H:i'}}. 
+                Créé par {{subtheme.author}} le {{subtheme.created_date | date:'d M Y H:i'}}. 
                 {{subtheme.ItemCountActive}}/{{subtheme.ItemCount}} items actifs. 
                 {% if request.user.is_staff %}<a target="_blank" href="/admin/roadmap/subtheme/{{subtheme.uid}}/change/">(Editer)</a>{% endif %}
             </span>
@@ -31,7 +31,7 @@
     <hr>
     {% for item in subtheme.item_subtheme.all %}
     {% if item.is_active %}
-    <div class="row mb-4">
+    <div class="row mb-4" id="item_{{item.uid}}">
         <div class="col-2 bordered-right">
             <a href="/roadmap/itemstatusswitch/{{item.uid}}/active_switch"><span data-feather="square"></span></a> 
             {% if item.is_important %}
@@ -49,10 +49,10 @@
             {% if item.item_comment_item.all %}
             <hr>
             <div>
+                <span class="small" data-feather="message-square"></span>
                 {% for comment in item.item_comment_item.all %}
                 <div class="small p-1 mt-1">
-                    <span class="small" data-feather="message-square"></span>
-                    <span title="{{comment.timestamp | date:'d M Y H:i'}}">{{comment.author}}: {{comment.name}}</span>
+                    <span title="{{comment.created_date | date:'d M Y H:i'}}">{{comment.author}}: {{comment.name}}</span>
                     {% if request.user.is_staff %}
                     <a target="_blank" href="/admin/roadmap/itemcomment/{{comment.uid}}/change/">(éditer)</a>
                     {% endif %} 
@@ -64,7 +64,7 @@
         <div class="col-3">{{item.created_date | date:'d M Y H:i'}}</div>
     </div>
     {% else %}
-    <div class="row">
+    <div class="row" id="item_{{item.uid}}">
         <div class="col-2 text-muted"><a href="/roadmap/itemstatusswitch/{{item.uid}}/active_switch"><span data-feather="check-square"></span></a></div>
         <div class="col-7 text-muted">{{item.name}}<br><span class="small">Complété le : {{item.completed_date | date:'d M Y H:i'}}</span></div>
         <div class="col-3 text-muted">{{item.created_date | date:'d M Y H:i'}}</div>

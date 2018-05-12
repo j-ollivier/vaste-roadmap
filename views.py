@@ -16,11 +16,12 @@ def Home(request):
         accessible themes, he can see the one where his access is 
         granted.
     '''
+    themes = Theme.objects.filter(
+            authorized_user = request.user).order_by(
+            'name')
     context = {
         'page_title': 'Themes',
-        'themes': Theme.objects.filter(
-            authorized_user = request.user).order_by(
-            'name'),
+        'themes': themes,
     }
     template = loader.get_template('roadmap/home.html')
     return HttpResponse(template.render(context, request))
@@ -60,14 +61,16 @@ def AddItem(request, subtheme_uid):
             new_item.subtheme = subtheme
             new_item.is_active = True
             new_item.created_date = timezone.now()
+            theme = subtheme.theme
             new_item.save()
             # log it
             log = EventLog()
             log.author = request.user
             log.entity_type = 'item'
-            log.value = new_item.name
+            log.value = new_item.name[0:20]
             log.entity_uid = Item.objects.all().order_by('created_date').last().uid
             log.action = 'Création'
+            log.theme = theme
             log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(subtheme.theme.uid))
@@ -103,9 +106,10 @@ def AddItemComment(request, item_uid):
             log = EventLog()
             log.author = request.user
             log.entity_type = 'commentaire'
-            log.entity_uid = ItemComment.objects.all().order_by('timestamp').last().uid
-            log.value = new_item.name
+            log.entity_uid = ItemComment.objects.all().order_by('created_date').last().uid
+            log.value = new_item.name[0:20]
             log.action = 'Création'
+            log.theme = subtheme.theme
             log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(item.subtheme.theme.uid))
@@ -135,14 +139,16 @@ def AddSubTheme(request, theme_uid):
             new_subtheme.author = User.objects.get(pk = request.user.id)
             new_subtheme.theme = theme
             new_subtheme.timestamp = timezone.now()
+            new_subtheme.theme = theme
             new_subtheme.save()
             # log it
             log = EventLog()
             log.author = request.user
             log.entity_type = 'sous-thème'
-            log.entity_uid = SubTheme.objects.all().order_by('timestamp').last().uid
+            log.entity_uid = SubTheme.objects.all().order_by('created_date').last().uid
             log.action = 'Création'
-            log.value = new_subtheme.name
+            log.theme = theme
+            log.value = new_subtheme.name[0:20]
             log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(theme.uid))
@@ -173,6 +179,7 @@ def ItemStatusSwitch(request, item_uid, item_action):
             log.entity_type = 'item'
             log.entity_uid = Item.objects.all().order_by('created_date').last().uid
             log.action = 'Complétion'
+            log.theme = theme
             log.save()
         else:
             item.is_active = True
@@ -184,6 +191,7 @@ def ItemStatusSwitch(request, item_uid, item_action):
             log.entity_type = 'item'
             log.entity_uid = Item.objects.all().order_by('created_date').last().uid
             log.action = 'Réactivation'
+            log.theme = theme
             log.save()
     elif item_action == 'importance_switch' and request.user in theme.authorized_user.all():
         if item.is_important == True:
@@ -195,6 +203,7 @@ def ItemStatusSwitch(request, item_uid, item_action):
             log.entity_type = 'item'
             log.entity_uid = Item.objects.all().order_by('created_date').last().uid
             log.action = 'Priorité abaissée'
+            log.theme = theme
             log.save()
         else:
             item.is_important = True
@@ -205,6 +214,7 @@ def ItemStatusSwitch(request, item_uid, item_action):
             log.entity_type = 'item'
             log.entity_uid = Item.objects.all().order_by('created_date').last().uid
             log.action = 'Priorité élevée'
+            log.theme = theme
             log.save()
     else:
         return HttpResponseRedirect(
@@ -241,13 +251,6 @@ def SubThemeOrderChange(request, subtheme_uid, subtheme_action):
             subtheme_to_swap = SubTheme.objects.get(
                 theme = subtheme.theme, order = subtheme.order)
             subtheme.save()
-            # log it
-            log = EventLog()
-            log.author = request.user
-            log.entity_type = 'sous-thème'
-            log.entity_uid = subtheme.uid
-            log.action = 'Changement d\'ordre'
-            log.save()
         except ObjectDoesNotExist:
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(subtheme.theme.uid))    
