@@ -51,7 +51,7 @@
             <div>
                 <span class="small" data-feather="message-square"></span>
                 {% for comment in item.item_comment_item.all %}
-                <div class="small p-1 mt-1">
+                <div class="small p-1 mt-1" id="comment_{{comment.uid}}">
                     <span title="{{comment.created_date | date:'d M Y H:i'}}">{{comment.author}}: {{comment.name}}</span>
                     {% if request.user.is_staff %}
                     <a target="_blank" href="/admin/roadmap/itemcomment/{{comment.uid}}/change/">(éditer)</a>
@@ -75,11 +75,12 @@
     <hr>    
     <div class="mt-5">
         <h3>Nouveau sous-thème</h3>
-        <form class="mt-5" id="new_sub_theme_form" action="/roadmap/addsubtheme/{{theme.uid}}" method="post">
+        <div class="text-center alert alert-warning" role="alert"> Fonctionnalité en travaux pour l'instant</div>
+<!--         <form class="mt-5" id="new_sub_theme_form" action="/roadmap/addsubtheme/{{theme.uid}}" method="post">
             {% csrf_token %}
             {{ new_sub_theme_form.as_p }}
             <input id= "new_sub_theme_form_input" type="submit" value="Créer" />
-        </form>
+        </form> -->
     </div>
 
 </div>

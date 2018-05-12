@@ -67,7 +67,7 @@ def AddItem(request, subtheme_uid):
             log = EventLog()
             log.author = request.user
             log.entity_type = 'item'
-            log.value = new_item.name[0:20]
+            log.value = str(new_item.name)[0:40]
             log.entity_uid = Item.objects.all().order_by('created_date').last().uid
             log.action = 'Création'
             log.theme = theme
@@ -107,7 +107,7 @@ def AddItemComment(request, item_uid):
             log.author = request.user
             log.entity_type = 'commentaire'
             log.entity_uid = ItemComment.objects.all().order_by('created_date').last().uid
-            log.value = new_item.name[0:20]
+            log.value = str(new_item.name)[0:40]
             log.action = 'Création'
             log.theme = subtheme.theme
             log.save()
@@ -148,7 +148,7 @@ def AddSubTheme(request, theme_uid):
             log.entity_uid = SubTheme.objects.all().order_by('created_date').last().uid
             log.action = 'Création'
             log.theme = theme
-            log.value = new_subtheme.name[0:20]
+            log.value = str(new_subtheme.name)[0:40]
             log.save()
             return HttpResponseRedirect(
                 '/roadmap/view/{}'.format(theme.uid))

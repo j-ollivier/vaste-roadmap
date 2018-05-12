@@ -147,6 +147,8 @@ class EventLog(models.Model):
         To keep track of every event, a log entry is available each
         time an event happens in
     '''
+    class Meta:
+            ordering = ['-created_date']
     # Attributes
     uid = models.AutoField(
         primary_key = True, db_index = True)

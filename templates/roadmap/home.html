@@ -29,7 +29,7 @@
             <div class="col-7 h3">{{theme.name}}</div>
             <div class="col-2">{{theme.author}}</div>
             <div class="col-1">{{theme.ItemCount}}</div>
-            <div class="col-2">{{theme.created_date | date:'Y-m-d H:i'}}</div>
+            <div class="col-2">{{theme.created_date | date:'d M Y'}}</div>
         </div>
     </a>
         <div class="media">
@@ -40,7 +40,17 @@
         </div>
         {% for item in theme.log_theme.all|slice:":10" %}
         <div class="small">
+            {% if item.entity_type == 'item' %}
+            <div><a href="/roadmap/view/{{theme.uid}}#item_{{item.entity_uid}}">Il y a {{item.created_date|timesince}} - {{item.action}} d'un {{item.entity_type}} par {{item.author}} {% if item.value %}: <i>"{{item.value}}..."</i> {% endif %}</a></div>
+            {% elif item.entity_type == 'commentaire' %}
+            <div><a href="/roadmap/view/{{theme.uid}}#comment_{{item.entity_uid}}">Il y a {{item.created_date|timesince}} - {{item.action}} d'un {{item.entity_type}} par {{item.author}} {% if item.value %}: <i>"{{item.value}}..."</i> {% endif %}</a></div>
+            {% else %}
             <div>{{item.created_date | date:'Y-m-d H:i'}} - {{item.action}} d'un {{item.entity_type}} par {{item.author}}</div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="small">
+            <p>Pas d'activité récente.</p>
         </div>
         {% endfor %}
     {% endfor %}
