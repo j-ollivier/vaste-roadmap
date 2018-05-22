@@ -29,6 +29,7 @@
         </div>
     </div>
     <hr>
+    <!-- BEGIN SUBTHEME LISTING -->
     {% for item in subtheme.item_subtheme.all %}
     {% if item.is_active %}
     <div class="row mb-4" id="item_{{item.uid}}">
@@ -44,6 +45,14 @@
         </div>
         <div class="col-7 item-content">
             <div>
+                {% if item.attributed_to %}
+                {% if item.attributed_to == request.user %}
+                <small class="btn btn-sm btn-success">Pour {{request.user}}</small>
+                {% else %}
+                <small class="btn btn-sm btn-secondary">Pour {{item.attributed_to.item_user}}</small>
+                {% endif %} 
+                {% endif %}
+                <br>
                 {{item.name.rendered}}
             </div>
             {% if item.item_comment_item.all %}
@@ -75,12 +84,11 @@
     <hr>    
     <div class="mt-5">
         <h3>Nouveau sous-thème</h3>
-        <div class="text-center alert alert-warning" role="alert"> Fonctionnalité en travaux pour l'instant</div>
-<!--         <form class="mt-5" id="new_sub_theme_form" action="/roadmap/addsubtheme/{{theme.uid}}" method="post">
+        <form class="mt-5" id="new_sub_theme_form" action="/roadmap/addsubtheme/{{theme.uid}}" method="post">
             {% csrf_token %}
             {{ new_sub_theme_form.as_p }}
             <input id= "new_sub_theme_form_input" type="submit" value="Créer" />
-        </form> -->
+        </form>
     </div>
 
 </div>

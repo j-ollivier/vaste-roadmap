@@ -22,6 +22,7 @@ def Home(request):
     context = {
         'page_title': 'Themes',
         'themes': themes,
+        'page_title' : 'Feuilles de route',
     }
     template = loader.get_template('roadmap/home.html')
     return HttpResponse(template.render(context, request))
@@ -39,6 +40,7 @@ def ThemeView(request, theme_uid):
             'new_sub_theme_form' : NewSubThemeForm(),
             'subthemes': SubTheme.objects.filter(
                 theme = theme).order_by('order').select_related(),
+            'page_title' : theme.name,
         }
         template = loader.get_template('roadmap/theme_view.html')
         return HttpResponse(template.render(context, request))
@@ -80,7 +82,8 @@ def AddItem(request, subtheme_uid):
     else:
         context = {
             'subtheme' : subtheme,
-            'new_item_form' : NewItemForm(),
+            'new_item_form' : NewItemForm(theme = subtheme.theme),
+            'page_title' : 'Nouvel item',
         }
         template = loader.get_template('roadmap/add_item.html')
         return HttpResponse(template.render(context, request))
@@ -120,6 +123,7 @@ def AddItemComment(request, item_uid):
         context = {
             'item': item,
             'new_item_comment_form' : NewItemCommentForm(),
+            'page_title' : 'Nouveau commentaire',
         }
         template = loader.get_template('roadmap/add_item_comment.html')
         return HttpResponse(template.render(context, request))
@@ -136,11 +140,16 @@ def AddSubTheme(request, theme_uid):
         if form.is_valid():
             new_subtheme = SubTheme()
             new_subtheme.name = form.cleaned_data['name']
+            new_subtheme.order = 0
             new_subtheme.author = User.objects.get(pk = request.user.id)
             new_subtheme.theme = theme
             new_subtheme.timestamp = timezone.now()
             new_subtheme.theme = theme
             new_subtheme.save()
+            # Give it the right order
+            for subtheme in SubTheme.objects.filter(theme = theme):
+                subtheme.order += 1
+                subtheme.save()
             # log it
             log = EventLog()
             log.author = request.user

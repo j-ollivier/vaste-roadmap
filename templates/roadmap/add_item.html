@@ -27,6 +27,9 @@
         {{ new_item_form.as_p }}
         <input id= "new_item_form" type="submit" value="Enregistrer" />
     </form>
+    <p>
+        {{ new_item_form.is_bound }}
+    </p>
 </div>
 
 {% endblock %}

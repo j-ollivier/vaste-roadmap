@@ -103,6 +103,11 @@ class Item(models.Model):
         default = timezone.now)
     completed_date =  models.DateTimeField(
         null = True)
+    attributed_to = models.ForeignKey(
+        User,
+        null = True,
+        on_delete = models.SET_NULL,
+        related_name = 'item_user')
     # Methods
     def __str__(self):
         return str(self.name)
