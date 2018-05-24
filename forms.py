@@ -5,14 +5,12 @@ from django.forms import ModelForm
 class NewItemForm(ModelForm):
     class Meta:
         model= Item
-        fields= ['name', 'attributed_to' ]
+        fields= ['name']
         labels = {
         'name': 'Contenu',
         'attributed_to': 'Attribué à',
     }
-    def __init__(self, theme, *args, **kwargs):
-        super(NewItemForm, self).__init__(*args, **kwargs)
-        self.fields['attributed_to'].queryset = theme.authorized_user.all()
+
 
 class NewItemCommentForm(ModelForm):
     class Meta:

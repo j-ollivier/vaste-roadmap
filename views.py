@@ -82,7 +82,7 @@ def AddItem(request, subtheme_uid):
     else:
         context = {
             'subtheme' : subtheme,
-            'new_item_form' : NewItemForm(theme = subtheme.theme),
+            'new_item_form' : NewItemForm(),
             'page_title' : 'Nouvel item',
         }
         template = loader.get_template('roadmap/add_item.html')

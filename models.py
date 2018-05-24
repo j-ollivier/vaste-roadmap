@@ -106,6 +106,7 @@ class Item(models.Model):
     attributed_to = models.ForeignKey(
         User,
         null = True,
+        blank = True,
         on_delete = models.SET_NULL,
         related_name = 'item_user')
     # Methods
